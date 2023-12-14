@@ -1,5 +1,5 @@
 from networks import AdaINGen, MsImageDis, Dis_content, VAEGen
-from utils import weights_init, get_model_list, vgg_preprocess, load_vgg19, get_scheduler
+from utils import weights_init, get_model_list, vgg_preprocess, load_vgg19, get_scheduler, BMTD_algorithm
 from torch.autograd import Variable
 import torch
 import torch.nn as nn
@@ -286,7 +286,7 @@ class UNIT_Trainer(nn.Module):
 
         return x_a, x_a_recon, x_ab, x_ac, x_b, x_b_recon, x_ba, x_bc, x_c, x_c_recon, x_cb, x_ca
 
-    def dis_update(self, x_a, x_b, x_c, hyperparameters):
+    def dis_update(self, x_a, x_b, x_c, hyperparameters, iteration=0):
         self.dis_opt.zero_grad()
         self.content_opt.zero_grad()
     
@@ -333,8 +333,14 @@ class UNIT_Trainer(nn.Module):
         self.loss_dis_c = self.dis_c.calc_dis_loss(x_bc.detach(), x_c)
         self.loss_dis_b_bc = self.dis_b.calc_dis_loss(x_cb.detach(), x_b)
 
-        self.loss_dis_total = hyperparameters['gan_w'] * (self.loss_dis_a + self.loss_dis_b_ab +
-                                                          self.loss_dis_c + self.loss_dis_b_bc + self.loss_ContentD)
+        # self.loss_dis_total = hyperparameters['gan_w'] * (self.loss_dis_a + self.loss_dis_b_ab +
+        #                                                   self.loss_dis_c + self.loss_dis_b_bc + self.loss_ContentD)
+
+        # Dynamically adjusting loss term weights with BMTD algorithm
+        loss_adv_e = self.loss_ContentD
+        loss_adv_i = self.loss_dis_a + self.loss_dis_b_ab + self.loss_dis_c + self.loss_dis_b_bc
+        self.loss_dis_total = hyperparameters['gan_w'] * BMTD_algorithm(iteration, loss_adv_e, loss_adv_i)
+
         self.loss_dis_total.backward()        
         nn.utils.clip_grad_norm_(self.dis_content_ab.parameters(), 5) 
         nn.utils.clip_grad_norm_(self.dis_content_bc.parameters(), 5)

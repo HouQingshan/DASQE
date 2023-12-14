@@ -13,16 +13,16 @@ beta1: 0.                    # Adam parameter
 beta2: 0.9                  # Adam parameter
 init: kaiming                 # initialization
 lr: 0.0001                    # initial learning rate
-lr_policy: step               # learning rate scheduler
+lr_policy: step               # learning rate scheduler(step or CosineAnnealingWarm)
 step_size: 100000             # how often to decay learning rate
 gamma: 0.5                    # how much to decay learning rate
-gan_w: 1                      # weight of adversarial loss
+gan_w: 0.1                     # weight of adversarial loss
 recon_x_w: 10                 # weight of image reconstruction loss 
 recon_h_w: 0                  # weight of hidden reconstruction loss
 recon_kl_w: 0.01              # weight of KL loss for reconstruction
 recon_x_cyc_w: 10             # weight of cycle consistency loss 
 recon_kl_cyc_w: 0.01          # weight of KL loss for cycle consistency
-vgg_w: 1.                    # weight of domain-invariant perceptual loss
+vgg_w: 1.                     # weight of domain-invariant perceptual loss
 gan_type: "lsgan"
 # model options
 gen:

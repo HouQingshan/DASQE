@@ -244,9 +244,10 @@ def vgg_preprocess(batch):
 def get_scheduler(optimizer, hyperparameters, iterations=-1):
     if 'lr_policy' not in hyperparameters or hyperparameters['lr_policy'] == 'constant':
         scheduler = None 
+    elif hyperparameters['lr_policy'] == 'CosineAnnealingWarm':
+        scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer, eta_min=5e-5)
     elif hyperparameters['lr_policy'] == 'step':
-        scheduler = lr_scheduler.StepLR(optimizer, step_size=hyperparameters['step_size'],
-                                        gamma=hyperparameters['gamma'], last_epoch=iterations)
+        scheduler = lr_scheduler.StepLR(optimizer, step_size=hyperparameters['step_size'], gamma=hyperparameters['gamma'], last_epoch=iterations)
     else:
         return NotImplementedError('learning rate policy [%s] is not implemented', hyperparameters['lr_policy'])
     return scheduler
@@ -284,3 +285,34 @@ class Timer:
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         print(self.msg % (time.time() - self.start_time))
+
+
+class BMTD_algorithm():
+    def __init__(self):
+        self.initial_task1_loss_list = 0
+        self.initial_task2_loss_list = 0
+        self.weights_c1_save = []
+        self.weights_c2_save = []
+
+    def __call__(self, iteration, c1_loss, c2_loss, alpha=0.5):
+
+        if iteration == 1:
+            self.initial_task1_loss_list = c1_loss.item()
+            self.initial_task2_loss_list = c2_loss.item()
+
+        c1_loss_ratio = c1_loss.item() / self.initial_task1_loss_list
+        c2_loss_ratio = c2_loss.item() / self.initial_task2_loss_list
+
+        c1_loss_weight = pow(c1_loss_ratio,alpha)
+        c2_loss_weight = pow(c2_loss_ratio,alpha)
+
+        weights_sum = c1_loss_weight + c2_loss_weight
+
+        c1_loss_weight = c1_loss_weight / weights_sum * 2
+        c2_loss_weight = c2_loss_weight / weights_sum * 2
+
+        self.weights_c1_save.append(c1_loss_weight)
+        self.weights_c2_save.append(c2_loss_weight)
+
+        losses = c1_loss * c1_loss_weight + c2_loss * c2_loss_weight
+        return losses / 2.0
