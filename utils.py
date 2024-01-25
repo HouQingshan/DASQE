@@ -27,18 +27,18 @@ def get_all_data_loaders(conf):
     width = conf['crop_image_width']
 
     if 'data_root' in conf:
-        train_loader_a = get_data_loader_folder(os.path.join(conf['data_root'], 'data_a'), batch_size, True,
+        train_loader_a = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Train_Folder', 'data_a'), batch_size, True,
                                                 new_size_a, height, width, num_workers, True)
-        train_loader_b = get_data_loader_folder(os.path.join(conf['data_root'], 'data_b'), batch_size, True,
+        train_loader_b = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Train_Folder', 'data_b'), batch_size, True,
                                                 new_size_b, height, width, num_workers, True)
-        train_loader_c = get_data_loader_folder(os.path.join(conf['data_root'], 'data_c'), batch_size, True,
+        train_loader_c = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Train_Folder', 'data_c'), batch_size, True,
                                                 new_size_c, height, width, num_workers, True)
 
-        test_loader_a = get_data_loader_folder(os.path.join(conf['data_root'], 'data_a'), batch_size, False,
+        test_loader_a = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Test_Folder', 'data_a'), batch_size, False,
                                                new_size_a, new_size_a, new_size_a, num_workers, True)
-        test_loader_b = get_data_loader_folder(os.path.join(conf['data_root'], 'data_b'), batch_size, False,
+        test_loader_b = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Test_Folder', 'data_b'), batch_size, False,
                                                new_size_b, new_size_b, new_size_b, num_workers, True)
-        test_loader_c = get_data_loader_folder(os.path.join(conf['data_root'], 'data_c'), batch_size, False,
+        test_loader_c = get_data_loader_folder(os.path.join(conf['data_root'], conf['dataset'], 'Test_Folder', 'data_c'), batch_size, False,
                                                new_size_c, new_size_c, new_size_c, num_workers, True)
     else:
         train_loader_a = get_data_loader_list(conf['data_folder_train_a'], conf['data_list_train_a'], batch_size, True,

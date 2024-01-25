@@ -4,7 +4,7 @@ from torch.autograd import Variable
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-from GaussianSmoothLayer import GaussionSmoothLayer, GradientLoss
+# from GaussianSmoothLayer import GaussionSmoothLayer, GradientLoss
 import os
 
 
@@ -333,13 +333,13 @@ class UNIT_Trainer(nn.Module):
         self.loss_dis_c = self.dis_c.calc_dis_loss(x_bc.detach(), x_c)
         self.loss_dis_b_bc = self.dis_b.calc_dis_loss(x_cb.detach(), x_b)
 
-        # self.loss_dis_total = hyperparameters['gan_w'] * (self.loss_dis_a + self.loss_dis_b_ab +
-        #                                                   self.loss_dis_c + self.loss_dis_b_bc + self.loss_ContentD)
+        self.loss_dis_total = hyperparameters['gan_w'] * (self.loss_dis_a + self.loss_dis_b_ab +
+                                                          self.loss_dis_c + self.loss_dis_b_bc + self.loss_ContentD)
 
         # Dynamically adjusting loss term weights with BMTD algorithm
-        loss_adv_e = self.loss_ContentD
-        loss_adv_i = self.loss_dis_a + self.loss_dis_b_ab + self.loss_dis_c + self.loss_dis_b_bc
-        self.loss_dis_total = hyperparameters['gan_w'] * BMTD_algorithm(iteration, loss_adv_e, loss_adv_i)
+        # loss_adv_e = self.loss_ContentD
+        # loss_adv_i = self.loss_dis_a + self.loss_dis_b_ab + self.loss_dis_c + self.loss_dis_b_bc
+        # self.loss_dis_total = hyperparameters['gan_w'] * BMTD_algorithm(iteration, loss_adv_e, loss_adv_i)
 
         self.loss_dis_total.backward()        
         nn.utils.clip_grad_norm_(self.dis_content_ab.parameters(), 5) 
