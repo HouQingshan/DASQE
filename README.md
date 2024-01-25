@@ -6,9 +6,9 @@ This is the implementation of the  "A Collaborative Self-supervised Domain Adapt
 
 1. Firstly, download the datasets from the following links:
    
-   * EyeQ Dataset - [Link]([Diabetic Retinopathy Detection | Kaggle](https://www.kaggle.com/c/diabetic-retinopathy-detection))
+   * EyeQ Dataset - ([Diabetic Retinopathy Detection | Kaggle](https://www.kaggle.com/c/diabetic-retinopathy-detection))
    * Corneal Nerve Dataset - [Link](http://bioimlab.dei.unipd.it/)
-   * ISIC-2017 Dataset - [Link]([ISIC Challenge](https://challenge.isic-archive.com/data/#2017))
+   * ISIC-2017 Dataset - ([ISIC Challenge](https://challenge.isic-archive.com/data/#2017))
    * Endoscopy Dataset - [Link](https://drive.google.com/file/d/1MuO2SbGgOL)
    * Chest X-ray Dataset - [Link](https://nihcc.app.box.com/v/ChestXray-NIHCC)
    * Cardiac MRI Dataset - [Link](https://www.cardiacatlas.org/amrg-cardiac-atlas/)
