@@ -9,7 +9,7 @@ This is the implementation of the  "A Collaborative Self-supervised Domain Adapt
    * EyeQ Dataset - [Diabetic Retinopathy Detection | Kaggle](https://www.kaggle.com/c/diabetic-retinopathy-detection)
    * Corneal Nerve Dataset - [Link](http://bioimlab.dei.unipd.it/)
    * ISIC-2017 Dataset - [ISIC Challenge](https://challenge.isic-archive.com/data/#2017)
-   * Endoscopy Dataset - [Link](https://drive.google.com/file/d/1MuO2SbGgOL)
+   * Endoscopy Dataset - [Link](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5549472/)
    * Chest X-ray Dataset - [Link](https://nihcc.app.box.com/v/ChestXray-NIHCC)
    * Cardiac MRI Dataset - [Link](https://www.cardiacatlas.org/amrg-cardiac-atlas/)
 
