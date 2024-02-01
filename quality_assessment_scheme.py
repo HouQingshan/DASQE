@@ -89,6 +89,9 @@ for image_path in tqdm(os.listdir(path)):
     else:
         Low_list.append(image_path)
 
+# Add reference patches to H
+High_list.extend(reference_images)
+
 print("High_list:", len(High_list))
 print("Low_list:", len(Low_list))
 
